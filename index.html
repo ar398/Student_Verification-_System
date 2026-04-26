@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship Verification Portal</title>
+    <!-- Outfit Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glass.css">
+    <style>
+        /* Animated Gradient Background */
+        body {
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f172a, #020617);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            padding-top: 100px;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        @media (max-width: 992px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        .hero-text {
+            text-align: left;
+        }
+
+        @media (max-width: 992px) {
+            .hero-text {
+                text-align: center;
+            }
+
+            .action-buttons {
+                justify-content: center !important;
+            }
+
+            .uni-logos {
+                justify-content: center !important;
+            }
+        }
+
+        /* Trusted Badge */
+        .trusted-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #a5b4fc;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #fff 20%, #a5b4fc 40%, #a5b4fc 60%, #fff 80%);
+            background-size: 200% auto;
+            animation: shineText 5s linear infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        @keyframes shineText {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .action-buttons .btn {
+            font-size: 1.1rem;
+            padding: 14px 32px;
+        }
+
+        /* University Logos */
+        .uni-logos {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            opacity: 0.6;
+            filter: grayscale(100%);
+            transition: opacity 0.3s, filter 0.3s;
+        }
+
+        .uni-logos:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        .uni-logo-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        /* Floating Cards Live Feed */
+        .hero-live-feed {
+            position: relative;
+            perspective: 1000px;
+            height: 500px;
+            width: 100%;
+        }
+
+        .live-card {
+            position: absolute;
+            width: 320px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+
+        .card-1 {
+            top: 20px;
+            left: 10%;
+            transform: rotate(-5deg);
+            animation: float1 6s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        .card-2 {
+            top: 150px;
+            right: 0;
+            transform: rotate(5deg);
+            animation: float2 8s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .card-3 {
+            bottom: 50px;
+            left: 20%;
+            transform: rotate(-2deg);
+            animation: float3 7s ease-in-out infinite;
+            z-index: 4;
+        }
+
+        @keyframes float1 {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(-3deg);
+            }
+        }
+
+        @keyframes float2 {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(5deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(8deg);
+            }
+        }
+
+        @keyframes float3 {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-2deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(-5deg);
+            }
+        }
+
+        .live-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .live-card-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .live-badge {
+            margin-left: auto;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+        }
+
+        .mouse {
+            width: 26px;
+            height: 40px;
+            border: 2px solid white;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .wheel {
+            width: 4px;
+            height: 8px;
+            background: white;
+            border-radius: 2px;
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollWheel 2s infinite;
+        }
+
+        @keyframes scrollWheel {
+            0% {
+                top: 6px;
+                opacity: 1;
+            }
+
+            100% {
+                top: 20px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0) translateX(-50%);
+            }
+
+            40% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+
+            60% {
+                transform: translateY(-5px) translateX(-50%);
+            }
+        }
+    </style>
+    <!-- Vanilla Tilt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+</head>
+
+<body>
+    <div id="mouse-glow"></div>
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Sticky Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="nav-logo">
+            <i class="ph-fill ph-graduation-cap" style="color: var(--primary-color); font-size: 2rem;"></i>
+            ScholarVerify
+        </a>
+        <div class="nav-links">
+            <a href="#features" class="nav-item">Features</a>
+            <a href="#how-it-works" class="nav-item">How It Works</a>
+            <a href="#faq" class="nav-item">FAQ</a>
+            <a href="login.html" class="btn btn-primary btn-sm" style="margin-left: 10px;">Login</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-container reveal">
+            <!-- Left Text -->
+            <div class="hero-content hero-text">
+                <div class="trusted-badge">
+                    <i class="ph-fill ph-check-circle" style="color: #34D399;"></i>
+                    Trusted by 10,000+ Students & 500+ Institutions
+                </div>
+                <h1>Cross-State Scholarship Verification</h1>
+                <p>A unified, secure, and modern platform connecting students, institutions, and state boards for
+                    seamless scholarship approvals.</p>
+                <div class="action-buttons">
+                    <form id="verify-form"
+                        style="display: flex; gap: 10px; width: 100%; max-width: 400px; position: relative;">
+                        <input type="text" id="verify-enrollment" placeholder="Enter Enrollment Number..." required
+                            style="flex: 1; padding: 14px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: white; font-size: 1.1rem; outline: none; backdrop-filter: blur(10px);">
+                        <button type="submit" class="btn btn-success"
+                            style="padding: 14px 24px; border-radius: 30px; white-space: nowrap;">
+                            <i class="ph ph-magnifying-glass" style="margin-right: 8px; font-size: 1.2rem;"></i> Verify
+                        </button>
+                    </form>
+                </div>
+
+                <p style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">
+                    Supported By Top Institutions:</p>
+                <div class="uni-logos">
+                    <div class="uni-logo-item"><i class="ph-fill ph-buildings"></i> Stanford</div>
+                    <div class="uni-logo-item"><i class="ph-fill ph-bank"></i> MIT</div>
+                    <div class="uni-logo-item"><i class="ph-fill ph-books"></i> Harvard</div>
+                </div>
+            </div>
+
+            <!-- Right Illustration -->
+            <div class="hero-image-wrapper reveal"
+                style="transition-delay: 0.2s; flex: 1; display: flex; justify-content: flex-end; align-items: center;">
+                <div class="glass-card"
+                    style="padding: 0; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); width: 100%; max-width: 600px;">
+                    <img src="images/hero.png" alt="ScholarVerify Illustration"
+                        style="width: 100%; height: auto; display: block; filter: brightness(1.1) contrast(1.05);">
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span
+                style="font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">Scroll</span>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="section-padding">
+        <div class="container reveal">
+            <h2 class="section-title">Why Choose ScholarVerify?</h2>
+            <div class="features-grid">
+                <div class="glass-card feature-card" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                    data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="feature-icon"><i class="ph-fill ph-shield-check"></i></div>
+                    <h3>Secure Verification</h3>
+                    <p>All institutions are pre-verified by state admins, ensuring your requests are securely processed
+                        by authorized entities.</p>
+                </div>
+                <div class="glass-card feature-card" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                    data-tilt-glare="true" data-tilt-max-glare="0.2" style="transition-delay: 0.1s;">
+                    <div class="feature-icon"><i class="ph-fill ph-lightning"></i></div>
+                    <h3>Fast Processing</h3>
+                    <p>Digital document uploads and direct portals cut down verification times from months to mere days.
+                    </p>
+                </div>
+                <div class="glass-card feature-card" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                    data-tilt-glare="true" data-tilt-max-glare="0.2" style="transition-delay: 0.2s;">
+                    <div class="feature-icon"><i class="ph-fill ph-globe-hemisphere-west"></i></div>
+                    <h3>Cross-State Support</h3>
+                    <p>Study anywhere. Our platform unifies institutions across the country under a single verified
+                        database.</p>
+                </div>
+                <div class="glass-card feature-card" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                    data-tilt-glare="true" data-tilt-max-glare="0.2" style="transition-delay: 0.3s;">
+                    <div class="feature-icon"><i class="ph-fill ph-chart-line-up"></i></div>
+                    <h3>Real-time Tracking</h3>
+                    <p>Monitor your application's live status step-by-step from pending to verified, right from your
+                        dashboard.</p>
+                </div>
+                <div class="glass-card feature-card" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                    data-tilt-glare="true" data-tilt-max-glare="0.2" style="transition-delay: 0.4s;">
+                    <div class="feature-icon"><i class="ph-fill ph-files"></i></div>
+                    <h3>Document Management</h3>
+                    <p>Upload, update, and securely store all your ID and admission proofs in one unified, encrypted
+                        portal.</p>
+                </div>
+                <div class="glass-card feature-card" data-tilt data-tilt-max="10" data-tilt-speed="400"
+                    data-tilt-glare="true" data-tilt-max-glare="0.2" style="transition-delay: 0.5s;">
+                    <div class="feature-icon"><i class="ph-fill ph-users-three"></i></div>
+                    <h3>Role-based Access</h3>
+                    <p>Dedicated secure portals tailored specifically for Students, Institutions, and State
+                        Administrators.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section-padding" style="padding-top: 0;">
+        <div class="container reveal">
+            <div class="stats-container">
+                <div class="stat-box text-center">
+                    <h2>150k+</h2>
+                    <p>Students Verified</p>
+                </div>
+                <div class="stat-box text-center">
+                    <h2>1,200+</h2>
+                    <p>Institutions Onboarded</p>
+                </div>
+                <div class="stat-box text-center">
+                    <h2>50+</h2>
+                    <p>State Boards Connected</p>
+                </div>
+                <div class="stat-box text-center">
+                    <h2>24h</h2>
+                    <p>Average Processing Time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section (Timeline) -->
+    <section id="how-it-works" class="section-padding" style="background: rgba(0,0,0,0.2);">
+        <div class="container reveal">
+            <h2 class="section-title">How It Works</h2>
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="timeline-icon">1</div>
+                    <div class="glass-panel timeline-content">
+                        <h3><i class="ph ph-user-circle"
+                                style="vertical-align: middle; color: var(--primary-color);"></i> Student Registration
+                        </h3>
+                        <p>Create your student profile and upload your basic identification details to access the
+                            unified portal securely.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal" style="transition-delay: 0.1s;">
+                    <div class="timeline-icon">2</div>
+                    <div class="glass-panel timeline-content">
+                        <h3><i class="ph ph-upload-simple"
+                                style="vertical-align: middle; color: var(--secondary-color);"></i> Submit Documents
+                        </h3>
+                        <p>Select your institution using their unique state code, and securely upload your admission
+                            proofs and IDs directly.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal" style="transition-delay: 0.2s;">
+                    <div class="timeline-icon">3</div>
+                    <div class="glass-panel timeline-content">
+                        <h3><i class="ph ph-check-circle"
+                                style="vertical-align: middle; color: var(--warning-color);"></i> Institution
+                            Verification</h3>
+                        <p>The targeted institution receives your request on their dashboard and instantly approves or
+                            requests modifications.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal" style="transition-delay: 0.3s;">
+                    <div class="timeline-icon">4</div>
+                    <div class="glass-panel timeline-content">
+                        <h3><i class="ph ph-chart-pie-slice" style="vertical-align: middle; color: #a5b4fc;"></i> Admin
+                            Analytics</h3>
+                        <p>State boards monitor real-time verification analytics and manage institution authenticity
+                            from a centralized view.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section-padding">
+        <div class="container reveal">
+            <h2 class="section-title">Success Stories</h2>
+            <div class="testimonials-grid">
+                <div class="glass-card testimonial-card" data-tilt data-tilt-max="5">
+                    <i class="ph-fill ph-quotes testimonial-icon"></i>
+                    <p class="testimonial-text">"Before ScholarVerify, getting my interstate scholarship approved took 6
+                        months of mailing documents. This time, it was verified in just 2 days!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">S</div>
+                        <div class="author-info">
+                            <h4>Sarah Jenkins</h4>
+                            <p>Engineering Student</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card testimonial-card" data-tilt data-tilt-max="5" style="transition-delay: 0.1s;">
+                    <i class="ph-fill ph-quotes testimonial-icon"></i>
+                    <p class="testimonial-text">"Verification process became 5x faster! Handling physical proofs was a
+                        nightmare, but this platform gives us a clean dashboard to process instantly."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background: var(--secondary-color);">D</div>
+                        <div class="author-info">
+                            <h4>Dr. Mark Roberts</h4>
+                            <p>College Admin</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card testimonial-card" data-tilt data-tilt-max="5" style="transition-delay: 0.2s;">
+                    <i class="ph-fill ph-quotes testimonial-icon"></i>
+                    <p class="testimonial-text">"The real-time tracking gives students peace of mind. They know exactly
+                        when their documents are received and when they are verified."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background: var(--warning-color);">E</div>
+                        <div class="author-info">
+                            <h4>Elena Gomez</h4>
+                            <p>State Board Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section-padding" style="background: rgba(0,0,0,0.2);">
+        <div class="container reveal">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How long does verification take?
+                        <i class="ph ph-caret-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Once you upload your documents, institutions typically verify them within 24 to 48 hours
+                        depending on their workload. You can track the status live on your dashboard.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Is my document data secure?
+                        <i class="ph ph-caret-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, absolutely. All documents are stored securely and are only accessible by you, the targeted
+                        institution, and state administrators.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What if my request is rejected?
+                        <i class="ph ph-caret-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        If rejected, the institution will leave a remark explaining why (e.g., blurred ID). You can
+                        review the remark, correct the issue, and submit a new request instantly.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Can I apply for multiple scholarships across states?
+                        <i class="ph ph-caret-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! ScholarVerify is designed specifically for cross-state verification. You can submit your
+                        verified profile to any integrated state board seamlessly.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div
+                        style="font-size: 2rem; display: flex; align-items: center; gap: 10px; color: white; font-weight: 700;">
+                        <i class="ph-fill ph-graduation-cap" style="color: var(--primary-color);"></i>
+                        ScholarVerify
+                    </div>
+                    <p>Building the future of digital education administration through secure, cross-state verification
+                        networks.</p>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <a href="#" style="color: var(--text-muted); font-size: 1.5rem; transition: color 0.3s;"><i
+                                class="ph-fill ph-twitter-logo"></i></a>
+                        <a href="#" style="color: var(--text-muted); font-size: 1.5rem; transition: color 0.3s;"><i
+                                class="ph-fill ph-linkedin-logo"></i></a>
+                        <a href="#" style="color: var(--text-muted); font-size: 1.5rem; transition: color 0.3s;"><i
+                                class="ph-fill ph-github-logo"></i></a>
+                        <a href="#" style="color: var(--text-muted); font-size: 1.5rem; transition: color 0.3s;"><i
+                                class="ph-fill ph-instagram-logo"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#">For Students</a></li>
+                        <li><a href="#">For Institutions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ScholarVerify Platform. All rights reserved. Designed for secure cross-state student
+                    verification.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Verification Result Modal -->
+    <div id="verify-result-modal" class="modal-overlay hidden"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000;">
+        <div class="modal glass-card" style="width: 90%; max-width: 500px; padding: 30px;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+                <h3 style="margin: 0; font-size: 1.5rem;"><i class="ph-fill ph-shield-check"
+                        style="color: var(--secondary-color); margin-right: 8px;"></i> Verification Result</h3>
+                <span class="close-modal" id="close-verify-modal"
+                    style="cursor: pointer; font-size: 1.5rem; color: var(--text-muted);">&times;</span>
+            </div>
+            <div id="verify-result-content">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Animations, Navbar, Scroll, FAQ Script -->
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/verify.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar Scroll Effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Reveal Animations
+            const reveals = document.querySelectorAll('.reveal');
+            function reveal() {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+                reveals.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        element.classList.add('active');
+                    }
+                });
+            }
+            window.addEventListener('scroll', reveal);
+            setTimeout(reveal, 100);
+
+            // Scroll Progress Bar
+            const scrollProgress = document.getElementById('scroll-progress');
+            window.addEventListener('scroll', () => {
+                const totalScroll = document.documentElement.scrollTop;
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollValue = `${(totalScroll / windowHeight) * 100}%`;
+                scrollProgress.style.width = scrollValue;
+            });
+
+            // Mouse Glow Effect
+            const mouseGlow = document.getElementById('mouse-glow');
+            document.addEventListener('mousemove', (e) => {
+                mouseGlow.style.left = e.clientX + 'px';
+                mouseGlow.style.top = e.clientY + 'px';
+            });
+
+            // FAQ Accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    // Close others
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    // Toggle current
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

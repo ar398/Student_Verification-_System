@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glass.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="dashboard-layout">
+        <div class="sidebar">
+            <h2 style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="ph-fill ph-shield-star" style="color: var(--danger-color);"></i>
+                Admin Panel
+            </h2>
+            <ul>
+                <li><a href="#" class="active" id="nav-dashboard"><i class="ph ph-chart-pie-slice" style="font-size: 1.2rem; margin-right: 10px;"></i> Dashboard (Stats)</a></li>
+                <li><a href="#" id="nav-institutions"><i class="ph ph-buildings" style="font-size: 1.2rem; margin-right: 10px;"></i> Manage Institutions</a></li>
+                <li><a href="#" id="nav-users"><i class="ph ph-users" style="font-size: 1.2rem; margin-right: 10px;"></i> Manage Users</a></li>
+                <li style="margin-top: auto;"><a href="#" onclick="logout()"><i class="ph ph-sign-out" style="font-size: 1.2rem; margin-right: 10px;"></i> Logout</a></li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <div class="top-bar">
+                <h3 id="welcome-msg">Welcome, Admin</h3>
+                <div class="badge badge-rejected" style="font-size: 0.9rem;">Super Admin</div>
+            </div>
+
+            <!-- Stats Section -->
+            <div id="section-stats" style="max-width: 1200px; margin: 0 auto;">
+                <div class="stats-grid mb-2">
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">
+                            <i class="ph-fill ph-student"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Students</span>
+                            <h2 id="stat-students">0</h2>
+                        </div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">
+                            <i class="ph-fill ph-buildings"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Institutions</span>
+                            <h2 id="stat-institutions">0</h2>
+                        </div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">
+                            <i class="ph-fill ph-files"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Requests</span>
+                            <h2 id="stat-requests">0</h2>
+                        </div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">
+                            <i class="ph-fill ph-percent"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Approval Rate</span>
+                            <h2 id="stat-approval-rate">0%</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="glass-panel">
+                        <h3 class="mb-1"><i class="ph ph-chart-line"></i> Application Trends</h3>
+                        <div class="chart-container" style="max-width: 100%; height: 300px;">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass-panel">
+                        <h3 class="mb-1"><i class="ph ph-info"></i> System Health</h3>
+                        <div class="detail-item mt-1">
+                            <span class="label">Server Status</span>
+                            <span class="value" style="color: var(--secondary-color);">Online</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Database</span>
+                            <span class="value" style="color: var(--secondary-color);">Connected</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Last Backup</span>
+                            <span class="value">2h ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Institutions Section -->
+            <div id="section-institutions" class="glass-panel hidden" style="max-width: 1200px; margin: 0 auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-1">
+                    <h3><i class="ph ph-buildings"></i> Manage Institutions</h3>
+                    <button class="btn btn-primary" id="btn-add-inst"><i class="ph ph-plus" style="margin-right: 8px;"></i> Add Institution</button>
+                </div>
+                <!-- Form container remains same -->
+                <div id="add-inst-form-container" class="glass-card mb-2 hidden">
+                    <!-- ... existing form ... -->
+                </div>
+
+                <div class="table-responsive">
+                    <table class="glass-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Email</th>
+                                <th>Verified</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="institutions-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Manage Users Section -->
+            <div id="section-users" class="glass-panel hidden" style="max-width: 1200px; margin: 0 auto;">
+                <h3 class="mb-1"><i class="ph ph-users"></i> System Users</h3>
+                <div class="table-responsive">
+                    <table class="glass-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
