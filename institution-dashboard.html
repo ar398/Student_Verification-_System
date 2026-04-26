@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institution Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glass.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+        .modal-header h3 { margin: 0; font-size: 1.5rem; }
+        .close-modal { cursor: pointer; font-size: 1.5rem; color: var(--text-muted); transition: color 0.3s; }
+        .close-modal:hover { color: white; }
+        .document-links {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .document-links a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: #818CF8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .document-links a:hover { color: #C7D2FE; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="dashboard-layout">
+        <!-- Expanded Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header" style="padding: 20px; display: flex; align-items: center; gap: 10px;">
+                <i class="ph-fill ph-buildings" style="font-size: 1.8rem; color: var(--secondary-color);"></i>
+                <h2 style="font-size: 1.2rem; margin: 0;">Institution Panel</h2>
+            </div>
+            
+            <div class="sidebar-group">
+                <span class="group-label">MAIN</span>
+                <ul>
+                    <li><a href="#" class="active"><i class="ph ph-layout"></i> Dashboard</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-group">
+                <span class="group-label">REQUEST MANAGEMENT</span>
+                <ul>
+                    <li><a href="#"><i class="ph ph-users-four"></i> Student Requests <span class="badge badge-primary" style="margin-left: auto;">12</span></a></li>
+                    <li><a href="#"><i class="ph ph-hourglass"></i> Pending Review <span class="badge badge-warning" style="margin-left: auto;">8</span></a></li>
+                    <li><a href="#"><i class="ph ph-check-circle"></i> Reviewed Requests</a></li>
+                    <li><a href="#"><i class="ph ph-x-circle"></i> Rejected Requests</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-group">
+                <span class="group-label">INSTITUTION MANAGEMENT</span>
+                <ul>
+                    <li><a href="#"><i class="ph ph-user-gear"></i> Profile</a></li>
+                    <li><a href="#"><i class="ph ph-users"></i> Staff / Users</a></li>
+                    <li><a href="#"><i class="ph ph-list-bullets"></i> Departments</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-group" style="margin-top: auto;">
+                <ul>
+                    <li><a href="#"><i class="ph ph-gear"></i> Settings</a></li>
+                    <li><a href="#" onclick="logout()"><i class="ph ph-sign-out"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Top Nav Bar -->
+            <div class="top-nav">
+                <div class="search-bar-advanced">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Search anything... (Ctrl + /)">
+                </div>
+                <div class="top-nav-actions">
+                    <div class="nav-icon-btn"><i class="ph ph-bell"><span class="notif-dot"></span></i></div>
+                    <div class="nav-user-profile">
+                        <div class="user-info text-right">
+                            <span class="user-name" id="top-user-name">Admin User</span>
+                            <span class="user-role">Super Admin</span>
+                        </div>
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Naman" class="top-avatar">
+                    </div>
+                </div>
+            </div>
+
+            <div class="welcome-banner">
+                <h3>Welcome, <span id="welcome-name">Institution</span> 👋</h3>
+                <p class="text-muted">Review and verify student documentation</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid mb-2">
+                <div class="glass-card stat-card-advanced">
+                    <div class="card-icon" style="background: rgba(99, 102, 241, 0.1); color: var(--primary-color);"><i class="ph-fill ph-check-square"></i></div>
+                    <div class="card-data">
+                        <span class="label">Verified Today</span>
+                        <h2 id="stat-verified-today">0</h2>
+                        <span class="trend up"><i class="ph ph-trend-up"></i> +12% from yesterday</span>
+                    </div>
+                </div>
+                <div class="glass-card stat-card-advanced">
+                    <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #fbbf24;"><i class="ph-fill ph-hourglass"></i></div>
+                    <div class="card-data">
+                        <span class="label">Pending Review</span>
+                        <h2 id="stat-pending-review">0</h2>
+                        <span class="trend" style="color: #fbbf24;">2 urgent</span>
+                    </div>
+                </div>
+                <div class="glass-card stat-card-advanced">
+                    <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #34d399;"><i class="ph-fill ph-users-three"></i></div>
+                    <div class="card-data">
+                        <span class="label">Total Students</span>
+                        <h2 id="stat-total-students">0</h2>
+                        <span class="trend up"><i class="ph ph-trend-up"></i> +25 this month</span>
+                    </div>
+                </div>
+                <div class="glass-card stat-card-advanced">
+                    <div class="card-icon" style="background: rgba(139, 92, 246, 0.1); color: #a78bfa;"><i class="ph-fill ph-file-text"></i></div>
+                    <div class="card-data">
+                        <span class="label">Verified Documents</span>
+                        <h2 id="stat-total-docs">0</h2>
+                        <span class="trend up"><i class="ph ph-trend-up"></i> +18% this month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row mb-2">
+                <div class="glass-panel chart-main">
+                    <div class="panel-header">
+                        <h4>Requests Overview</h4>
+                        <select class="chart-filter">
+                            <option>This Week</option>
+                            <option>This Month</option>
+                        </select>
+                    </div>
+                    <canvas id="requestsOverviewChart" height="250"></canvas>
+                </div>
+                <div class="glass-panel chart-side">
+                    <h4>Request Status Distribution</h4>
+                    <div style="position: relative; height: 220px;">
+                        <canvas id="statusDistributionChart"></canvas>
+                        <div class="chart-center-text">
+                            <span id="total-chart-count">0</span>
+                            <small>Total</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid-advanced">
+                <!-- Recent Requests Table -->
+                <div class="glass-panel main-table-panel">
+                    <div class="panel-header">
+                        <h3>Recent Student Requests</h3>
+                        <div class="panel-actions">
+                            <div class="search-box">
+                                <i class="ph ph-magnifying-glass"></i>
+                                <input type="text" id="student-search" placeholder="Search student...">
+                            </div>
+                            <select id="status-filter">
+                                <option value="all">All</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="glass-table-advanced">
+                            <thead>
+                                <tr>
+                                    <th>STUDENT NAME</th>
+                                    <th>ENROLLMENT NO</th>
+                                    <th>STATUS</th>
+                                    <th>DATE</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requests-tbody">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Activity Feed -->
+                <div class="glass-panel activity-panel">
+                    <h4>Recent Activity</h4>
+                    <div class="activity-list" id="activity-list">
+                        <!-- JS Populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Summary Grid -->
+            <div class="summary-grid mt-2">
+                <div class="summary-card">
+                    <div class="summary-icon" style="color: #8b5cf6;"><i class="ph ph-identification-card"></i></div>
+                    <div class="summary-info">
+                        <h5>ID Proof</h5>
+                        <p><span class="v-count">0</span> Verified <span class="p-count">0</span> Pending</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon" style="color: #3b82f6;"><i class="ph ph-certificate"></i></div>
+                    <div class="summary-info">
+                        <h5>Admission Proof</h5>
+                        <p><span class="v-count">0</span> Verified <span class="p-count">0</span> Pending</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification Modal -->
+    <div id="verify-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="ph-fill ph-shield-check" style="color: var(--secondary-color); margin-right: 8px;"></i> Verify Request</h3>
+                <span class="close-modal" id="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 15px; font-size: 1.1rem;"><strong>Student:</strong> <span id="modal-student-name" style="color: #a5b4fc;"></span></p>
+                <div class="document-links mt-1 mb-1">
+                    <strong style="display: block; margin-bottom: 10px; color: var(--text-muted);">Uploaded Documents:</strong>
+                    <a href="#" id="link-id-proof" target="_blank"><i class="ph-fill ph-file-pdf"></i> View ID Proof</a>
+                    <a href="#" id="link-admission-proof" target="_blank"><i class="ph-fill ph-file-text"></i> View Admission Proof</a>
+                </div>
+                
+                <div class="form-group mt-1">
+                    <label>Remarks for Student</label>
+                    <textarea id="verify-remarks" class="form-control" rows="3" placeholder="Provide reason for approval/rejection"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 25px;">
+                    <button id="btn-approve" class="btn btn-success" style="flex: 1;"><i class="ph ph-check-circle" style="margin-right: 8px;"></i> Approve</button>
+                    <button id="btn-reject" class="btn btn-danger" style="flex: 1;"><i class="ph ph-x-circle" style="margin-right: 8px;"></i> Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/institution.js"></script>
+</body>
+</html>
